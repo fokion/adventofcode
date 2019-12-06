@@ -1,9 +1,6 @@
 import numpy
 print("Starting...")
 
-def castingToInt(x):
-    return int(x)
-
 try:
     fp = open('./input-day-2.txt')
     digits = fp.readline().strip().split(',')
