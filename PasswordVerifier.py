@@ -1,3 +1,4 @@
+import collections
 class PasswordVerifier:
     def __init__(self):
         pass
@@ -28,11 +29,24 @@ class PasswordVerifier:
             previous_number = current_number
         return True
 
+    def validate_for_part_two(self,possible_number):
+        large = False
+        number_as_string = str(possible_number)
+        c = collections.Counter(number_as_string)
+        for count in c.values():
+            count = int(count)
+            if count == 2:
+                large = True
+        if large:
+            return True
+        return False
+
+
     def validate(self, possible_number):
-        if (possible_number >= self.from_value and possible_number <= self.to_value):
-            if (len(str(possible_number)) == self.length):
-                if (self.adjacent_values_are_valid(str(possible_number))):
-                    if (self.values_are_equal_or_higher(str(possible_number))):
+        if possible_number >= self.from_value and possible_number <= self.to_value:
+            if len(str(possible_number)) == self.length:
+                if self.adjacent_values_are_valid(str(possible_number)):
+                    if self.values_are_equal_or_higher(str(possible_number)):
                         return True
 
         return False
@@ -42,4 +56,12 @@ class PasswordVerifier:
         for number in range(self.from_value, self.to_value):
             if self.validate(number):
                 available_passwords += 1
+        return available_passwords
+
+    def find_numbers_for_part_two(self):
+        available_passwords = 0
+        for number in range(self.from_value, self.to_value):
+            if self.validate(number):
+                if self.validate_for_part_two(number):
+                    available_passwords += 1
         return available_passwords
